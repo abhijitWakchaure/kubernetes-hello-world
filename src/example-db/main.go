@@ -16,7 +16,7 @@ var host string
 var version string
 
 func init() {
-	log.Printf("Starting DB server [v%s]\n", version)
+	log.Printf("Starting DB server [v%s]", version)
 	var err error
 	host, err = os.Hostname()
 	if err != nil {
@@ -36,7 +36,9 @@ func init() {
 func main() {
 	quit := make(chan error)
 	gin.SetMode(gin.ReleaseMode)
-	router := gin.Default()
+	router := gin.New()
+	router.Use(gin.Recovery())
+
 	router.Use(authMiddleware)
 	router.GET("/", handlerListTasks)
 	router.POST("/", handlerInsertTask)

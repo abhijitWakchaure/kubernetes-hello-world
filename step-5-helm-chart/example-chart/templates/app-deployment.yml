@@ -33,6 +33,11 @@ spec:
                 secretKeyRef:
                   name: example-app-secret
                   key: apiKey
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  name: example-app-config
+                  key: logLevel
           ports:
             - containerPort: 8080
 

@@ -2,7 +2,6 @@ package main
 
 import (
 	_ "embed"
-	"log"
 	"os"
 	"strings"
 
@@ -17,12 +16,14 @@ var apiKey, dbServiceURL string
 var version string
 
 func init() {
-	log.Printf("Starting app server [v%s]\n", version)
+	initLogger()
+	logger.Infof("Starting app server [v%s]", version)
 	var err error
 	host, err = os.Hostname()
 	if err != nil {
 		panic(err)
 	}
+	logger.Debugf("Hostname: %s", host)
 	meta = Meta{
 		Host:        host,
 		ServiceType: "app",
@@ -31,11 +32,12 @@ func init() {
 	if apiKey == "" {
 		panic("API_KEY is not set")
 	}
+	logger.Debugf("API_KEY is set to: %s", apiKey)
 	dbServiceURL = os.Getenv("DB_SERVICE_URL")
 	if dbServiceURL == "" {
 		panic("DB_SERVICE_URL is not set")
 	}
-	log.Println("DB_SERVICE_URL set to:", dbServiceURL)
+	logger.Infof("DB_SERVICE_URL is set to: %s", dbServiceURL)
 }
 
 func main() {
@@ -53,7 +55,7 @@ func main() {
 		port = ":" + port
 	}
 	go func() { quit <- router.Run(port) }()
-	log.Printf("App server [v%s] started on %s:%s \n", version, host, port)
+	logger.Infof("App server [v%s] started on %s:%s \n", version, host, port)
 	err := <-quit
 	if err != nil {
 		panic(err)
