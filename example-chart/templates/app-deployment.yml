@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-app-depl
+  labels:
+    app: example-app
+spec:
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app: example-app
+  template:
+    metadata:
+      labels:
+        app: example-app
+    spec:
+      containers:
+        - name: example-app-container
+          image: abhijitwakchaure/example-app:1.0.0
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 128Mi
+              cpu: "0.2"
+          env:
+            - name: DB_SERVICE_URL
+              value: "http://example-db-srv:8081"
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: example-app-secret
+                  key: apiKey
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-app-srv
+spec:
+  type: NodePort
+  selector:
+    app: example-app
+  ports:
+    - protocol: TCP
+      port: {{ .Values.app.service.port }}
+      targetPort: 8080

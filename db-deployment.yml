@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-db-depl
+  labels:
+    app: example-db
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: example-db
+  template:
+    metadata:
+      labels:
+        app: example-db
+    spec:
+      containers:
+        - name: example-db-container
+          image: abhijitwakchaure/example-db:1.0.0
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: 512Mi
+              cpu: "1"
+            requests:
+              memory: 128Mi
+              cpu: "0.2"
+          ports:
+            - containerPort: 8081
+          volumeMounts:
+            - mountPath: "/app/data"
+              name: my-data-volume
+      volumes:
+        - name: my-data-volume
+          persistentVolumeClaim:
+            claimName: example-db-pvc
