@@ -1,3 +1,19 @@
+## Docker vs Kubernetes
+| Docker | Kubernetes
+|-- | --
+| container tech, isolated env for apps | infra management, multiple containers
+| automated builds and deploy apps - CI | automated scheduling and management of app containers
+| platform for config, build & destribute containers | ecosystem for managing cluster of containers
+
+## Docker Swarm vs Kubernetes
+| Docker Swarn | Kubernetes
+|-- | --
+| complex install | easy install
+| high learning curve, but powerful | easy to use, limited functionality
+| auto-scaling | manual scaling
+| built in monitoring | N/A
+| manual load balancing | auto load balancing
+
 
 ### Create deplyment
 ```

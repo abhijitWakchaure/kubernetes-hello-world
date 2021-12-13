@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-db-pod
+  labels:
+    app: example-db-pod
+spec:
+  containers:
+    - name: example-db-container
+      image: abhijitwakchaure/example-db:1.0.0
+      imagePullPolicy: Always
+      resources:
+        limits:
+          memory: 512Mi
+          cpu: "1"
+        requests:
+          memory: 128Mi
+          cpu: "0.2"
+      ports:
+        - containerPort: 8081

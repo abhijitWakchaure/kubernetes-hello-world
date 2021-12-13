@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  example-app-srv:
+    image: abhijitwakchaure/example-app:1.0.0
+    ports:
+      - "8080:8080"
+    environment:
+      - "DB_SERVICE_URL=http://example-db-srv:8081"
+      - "API_KEY=DUMMY_API_KEY"
+    # deploy:
+    #   mode: replicated
+    #   replicas: 3
+
+  example-db-srv:
+    image: abhijitwakchaure/example-db:1.0.0
+    volumes:
+      - "./data:/app/data"
+    # deploy:
+    #   mode: replicated
+    #   replicas: 5

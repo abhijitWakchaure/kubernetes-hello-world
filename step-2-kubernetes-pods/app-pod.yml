@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-app-pod
+  labels:
+    app: example-app-pod
+spec:
+  containers:
+    - name: example-app-container
+      image: abhijitwakchaure/example-app:1.0.0
+      imagePullPolicy: Always
+      resources:
+        limits:
+          memory: 512Mi
+          cpu: "1"
+        requests:
+          memory: 128Mi
+          cpu: "0.2"
+      env:
+        - name: DB_SERVICE_URL
+          value: "http://172.17.0.12:8081"
+        - name: API_KEY
+          value: "DUMMY_API_KEY"
+      ports:
+        - containerPort: 8080
